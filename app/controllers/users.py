@@ -2,6 +2,7 @@ from app import app
 from flask_bcrypt import Bcrypt
 from flask import session, render_template, request, redirect, flash
 from app.models.user import User
+from app.models.show import Show
 
 bcrypt = Bcrypt(app)
 @app.route('/')
@@ -48,7 +49,7 @@ def get_dashboard():
     if 'user_id' not in session:
         return redirect('/logout')
     id = session['user_id']
-    return render_template("dashboard.html")
+    return render_template("dashboard.html", active_user = User.get_by_id(id), user_shows = Show.get_by_creator(id))
 
 @app.route('/logout')
 def logout():

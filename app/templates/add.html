@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>add show</title>
+</head>
+<body>
+    <div>
+        {{active_user.username}}
+        <a href="/dashboard">home</a>
+        <a href="/logout">logout</a>
+    </div>
+    <div>
+        <h1>Add Show</h1>
+        <div>
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <div>
+                        {% for message in messages %}
+                            <p>{{message}}</p>
+                        {% endfor %}
+                </div>
+                {% endif %}
+            {% endwith %}
+        </div>
+        <form action="/shows/new" method="POST">
+            <div>
+                <div>Show Name:</div>
+                <input type="text" name="name" id="name">
+            </div>
+            <div>
+                <div>Artists:</div>
+                <input type="text" name="artists" id="artists">
+            </div>
+            <div>
+                <div>location:</div>
+                <input type="text" name="location" id="location">
+            </div>
+            <div>
+                <div>Date:</div>
+                <input type="date" name="date" id="date">
+            </div>
+            <div>
+                <div>Show rating:</div>
+                <input type="number" name="rating" id="rating" min="0" max="10">
+            </div>
+            <div>
+                <div>Thoughts:</div>
+                <textarea name="thoughts" id="thoughts"></textarea>
+            </div>
+            <div>
+                <div>
+                    Make public?
+                </div>
+                <div>
+                    <input type="radio" name="public" id="yes" value="1">
+                    <label for="yes">Yes</label>
+                    <input type="radio" name="public" id="no" value="0">
+                    <label for="no">No</label>
+                </div>
+            </div>
+            <input type="hidden" name="user_id" value="{{active_user.id}}">
+            <button type="submit">submit</button>
+        </form>
+    </div>
+</body>
+</html>

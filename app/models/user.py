@@ -55,6 +55,18 @@ class User:
         else:
             return False
 
+    @classmethod
+    def get_by_id(cls, id):
+        query = """SELECT
+        *
+        FROM
+        users
+        WHERE
+        id = %(id)s
+        ;"""
+        results = MySQLConnection(cls.DB).query_db(query, {"id": id})
+        return User(results[0])
+
     @staticmethod
     def validate_new_user(data):
         is_valid = True
