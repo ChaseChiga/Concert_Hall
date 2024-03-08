@@ -37,9 +37,7 @@ def get_view_page(id):
 def get_edit_page(id):
 
     show =Show.get_by_id_with_creator(id)
-    print(show.public)
     if 'update_form' in session:
-        print(session['update_form'])
         show.name = session['update_form']['name']
         show.artists = session['update_form']['artists']
         show.location = session['update_form']['location']
@@ -48,7 +46,6 @@ def get_edit_page(id):
         show.thoughts = session['update_form']['thoughts']
         show.public = int(session['update_form']['public'])
         session.pop('update_form')
-        print(show.public)
 
     if 'user_id' not in session:
         return redirect('/logout')
