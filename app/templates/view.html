@@ -27,7 +27,7 @@
         </div>
         <div>
             {% if show.user_id != active_user.id %}
-            <h3>Seen by:</h3>{{show.username}}
+            <h3>Posted by:</h3>{{show.creator.username}}
             {% endif %}
             <h3>Location:</h3>
             {{show.location}}

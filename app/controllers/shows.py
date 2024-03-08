@@ -71,3 +71,20 @@ def edit_sighting():
     
     Show.edit(request.form)
     return redirect("/dashboard")
+
+@app.route('/delete/<int:id>')
+def delete_sighting(id):
+    if 'user_id' not in session:
+        return redirect('/logout') 
+    if Show.get_by_id_with_creator(id).user_id != session['user_id']:
+        flash("Can not delete someone elses sighting")
+        return redirect('/logout')
+    Show.delete(id)
+    return redirect('/dashboard')
+
+@app.route('/feed')
+def get_feed():
+    if 'user_id' not in session:
+        return redirect('/logout')
+    id = session['user_id']
+    return render_template("feed.html", active_user = User.get_by_id(id), users_shows = Show.get_all_but_user(id))

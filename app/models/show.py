@@ -84,6 +84,49 @@ class Show:
         result = MySQLConnection(cls.DB).query_db(query, data)
         return result
     
+    @classmethod
+    def delete(cls,id):
+        query = """ 
+            DELETE
+            FROM
+                shows
+            WHERE
+                id = %(id)s
+            ;
+        """
+        return MySQLConnection(cls.DB).query_db(query, {"id": id})
+    
+    @classmethod
+    def get_all_but_user(cls, user_id):
+        query = """SELECT *
+        FROM
+        shows
+        JOIN
+                users 
+            ON 
+                shows.user_id = users.id
+        WHERE 
+            shows.user_id != %(user_id)s
+        and 
+            shows.public = 1 
+        ;"""
+        results = MySQLConnection(cls.DB).query_db(query, {"user_id": user_id})
+        print(f"!!!! {results} !!!!!!!!")
+        all_results = []
+        for row in results:
+            show = cls(row)
+            show.creator = User({
+                "id": row["users.id"],
+                "first_name": row["first_name"],
+                "last_name": row["last_name"],
+                "username": row["username"],
+                "email": row["email"],
+                "password": row["password"]
+        })
+            all_results.append(show)
+        return all_results
+
+    
     @staticmethod
     def validate_new_show(data):
         is_valid = True
