@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View show</title>
+</head>
+<body>
+    <div>
+        {{active_user.username}}
+        <a href="/dashboard">home</a>
+        <a href="/logout">logout</a>
+    </div>
+    <div>
+        <h1>
+            {{show.name}}
+        </h1>
+    </div>
+    <div>
+        <h3>Artists</h3>
+        {{show.artist}}
+    </div>
+    <div>
+        <div>
+            <h3>Thoughts about the show</h3>
+            {{show.thoughts}}
+        </div>
+        <div>
+            {% if show.user_id != active_user.id %}
+            <h3>Seen by:</h3>{{show.username}}
+            {% endif %}
+            <h3>Location:</h3>
+            {{show.location}}
+            <h3>date:</h3>
+            {{show.date.strftime('%b-%d-%Y')}}
+            <h3>show rating:</h3>
+            {{show.rating}}/10
+        </div>
+    </div>
+</body>
+</html>
