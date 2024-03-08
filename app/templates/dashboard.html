@@ -11,6 +11,17 @@
         <a href="/logout">logout</a>
     </div>
     <div>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div>
+                    {% for message in messages %}
+                        <p>{{message}}</p>
+                    {% endfor %}
+            </div>
+            {% endif %}
+        {% endwith %}
+    </div>
+    <div>
         <p>been to a new show?</p>
         <a href="/shows/new">add show</a>
     </div>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>dashboard</title>
+    <title>feed</title>
 </head>
 <body>
     <div>
@@ -11,10 +11,21 @@
         <a href="/dashboard">home</a>
         <a href="/logout">logout</a>
     </div>
+    <div>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div>
+                    {% for message in messages %}
+                        <p>{{message}}</p>
+                    {% endfor %}
+            </div>
+            {% endif %}
+        {% endwith %}
+    </div>
     <table>
         <thead>
             <tr>
-                <td>username</td>
+                <td>Username</td>
                 <td>Show Name</td>
                 <td>Overall rating</td>
                 <td>likes</td>

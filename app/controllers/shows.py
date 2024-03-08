@@ -23,10 +23,15 @@ def add_show():
 
 @app.route('/shows/<int:id>')
 def get_view_page(id):
+
+    show = Show.get_by_id_with_creator(id) 
     if 'user_id' not in session:
         return redirect('/logout')
+    if show.creator.id != session['user_id'] and show.public == 0:
+        flash("this post is private or does not exist")
+        return redirect('/feed')
     user_id = session['user_id']
-    return render_template("view.html", active_user = User.get_by_id(user_id), show = Show.get_by_id_with_creator(id),)
+    return render_template("view.html", active_user = User.get_by_id(user_id), show = show)
 
 @app.route('/shows/edit/<int:id>')
 def get_edit_page(id):
