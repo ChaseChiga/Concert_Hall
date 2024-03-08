@@ -20,6 +20,7 @@ class Show:
         self.thoughts = data['thoughts']
         self.user_id = data["user_id"]
         self.public = data['public']
+        self.file_name = data['file_name']
         self.creator = None
 
     @classmethod
@@ -61,8 +62,8 @@ class Show:
     @classmethod
     def create(cls, data):
         query = """
-            INSERT INTO shows (name, artist, location, date, rating, thoughts, public, user_id)
-            VALUES (%(name)s, %(artists)s, %(location)s, %(date)s, %(rating)s, %(thoughts)s, %(public)s, %(user_id)s)"""
+            INSERT INTO shows (name, artist, location, date, rating, thoughts, public, user_id, file_name)
+            VALUES (%(name)s, %(artists)s, %(location)s, %(date)s, %(rating)s, %(thoughts)s, %(public)s, %(user_id)s, %(file_name)s)"""
         result = MySQLConnection(cls.DB).query_db(query, data)
         print(result)
         return result
@@ -78,7 +79,8 @@ class Show:
             date = %(date)s, 
             rating = %(rating)s, 
             thoughts = %(thoughts)s,
-            public = %(public)s
+            public = %(public)s,
+            file_name = %(file_name)s
             WHERE id = %(id)s
             ;"""
         result = MySQLConnection(cls.DB).query_db(query, data)

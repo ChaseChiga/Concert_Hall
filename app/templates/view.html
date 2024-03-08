@@ -36,6 +36,11 @@
             <h3>show rating:</h3>
             {{show.rating}}/10
         </div>
+        {% if show.file_name !=  None %}
+        <div>
+            <img src="/shows/image/{{show.id}}"/>
+        </div>
+        {% endif %}
     </div>
 </body>
 </html>

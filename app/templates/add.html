@@ -24,7 +24,7 @@
                 {% endif %}
             {% endwith %}
         </div>
-        <form action="/shows/new" method="POST">
+        <form action="/shows/new" enctype="multipart/form-data" method="POST">
             <div>
                 <div>Show Name:</div>
                 <input type="text" name="name" id="name">
@@ -58,6 +58,10 @@
                     <label for="yes">Yes</label>
                     <input type="radio" name="public" id="no" value="0">
                     <label for="no">No</label>
+                </div>
+                <div>
+                    <label for="file_name">upload a picture of the show</label>
+                    <input type="file" name="file_name" id="file_name">
                 </div>
             </div>
             <input type="hidden" name="user_id" value="{{active_user.id}}">
