@@ -44,8 +44,20 @@ class Show:
         WHERE shows.id = %(id)s
         ;"""
         results = MySQLConnection(cls.DB).query_db(query, {"id": id})
-        return results[0]
-    
+
+        if not results:
+            return False
+        show = cls(results[0])
+        show.creator = User({
+            "id": results[0]["users.id"],
+            "first_name": results[0]["first_name"],
+            "last_name": results[0]["last_name"],
+            "username": results[0]["username"],
+            "email": results[0]["email"],
+            "password": results[0]["password"]
+        })
+        return show
+
     @classmethod
     def create(cls, data):
         query = """
@@ -55,6 +67,23 @@ class Show:
         print(result)
         return result
 
+    @classmethod
+    def edit(cls, data):
+        query = """
+            UPDATE shows
+            SET
+            name = %(name)s,
+            artist = %(artists)s,
+            location = %(location)s, 
+            date = %(date)s, 
+            rating = %(rating)s, 
+            thoughts = %(thoughts)s,
+            public = %(public)s
+            WHERE id = %(id)s
+            ;"""
+        result = MySQLConnection(cls.DB).query_db(query, data)
+        return result
+    
     @staticmethod
     def validate_new_show(data):
         is_valid = True
