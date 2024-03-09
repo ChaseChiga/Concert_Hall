@@ -86,10 +86,11 @@ def get_edit_page(id):
     return render_template("edit.html", active_user = User.get_by_id(user_id), show =show)
 
 @app.route('/shows/edit', methods= ['POST'])
-def edit_sighting():
+def edit_showing():
     show = Show.get_by_id_with_creator(int(request.form['id']))
     if "file_name" not in session:
         session['file_name'] = show.file_name
+        print(session['file_name'])
 
     if show:
         if show.creator.id != session['user_id']:
@@ -128,7 +129,8 @@ def edit_sighting():
     if file and allowed_file(file.filename):
         filename = uuid.uuid4().hex
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        os.remove(os.path.join(app.config['UPLOAD_FOLDER'], session['file_name']))
+        if session['file_name'] != None:
+            os.remove(os.path.join(app.config['UPLOAD_FOLDER'], session['file_name']))
     Show.edit({
         **request.form,
         'file_name': filename
