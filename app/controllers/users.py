@@ -49,7 +49,8 @@ def get_dashboard():
     if 'user_id' not in session:
         return redirect('/logout')
     id = session['user_id']
-    return render_template("dashboard.html", active_user = User.get_by_id(id), user_shows = Show.get_by_creator(id))
+    likes = Show.count_likes()
+    return render_template("dashboard.html", active_user = User.get_by_id(id), user_shows = Show.get_by_creator(id), likes = likes)
 
 @app.route('/logout')
 def logout():

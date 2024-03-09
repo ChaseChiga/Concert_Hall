@@ -113,7 +113,6 @@ class Show:
             shows.public = 1 
         ;"""
         results = MySQLConnection(cls.DB).query_db(query, {"user_id": user_id})
-        print(f"!!!! {results} !!!!!!!!")
         all_results = []
         for row in results:
             show = cls(row)
@@ -127,8 +126,64 @@ class Show:
         })
             all_results.append(show)
         return all_results
-
     
+    @classmethod
+    def get_like_from_user(cls, data):
+        query = """SELECT *
+        FROM
+        likes
+        JOIN
+                shows 
+            ON 
+                likes.show_id = shows.id
+        WHERE 
+            likes.show_id = %(show_id)s
+        AND
+            likes.user_id = %(user_id)s
+        ;"""
+        results = MySQLConnection(cls.DB).query_db(query, data)
+
+        return results
+
+    @classmethod
+    def add_like(cls, data):
+        query = """
+            INSERT INTO likes (user_id, show_id)
+            VALUES (%(user_id)s, %(show_id)s)"""
+        result = MySQLConnection(cls.DB).query_db(query, data)
+        print(result)
+        return result
+    
+    @classmethod
+    def delete_likes(cls,data):
+        query = """ 
+            DELETE
+            FROM
+                likes
+            WHERE
+                user_id  = %(user_id)s
+            AND
+                show_id = %(show_id)s
+            ;
+        """
+        return MySQLConnection(cls.DB).query_db(query, data)
+
+    @classmethod
+    def count_likes(cls):
+        query = """ 
+            SELECT shows.id, count(likes.user_id) as like_count
+        FROM
+        shows
+        left JOIN
+                likes 
+        ON 
+                likes.show_id = shows.id
+        group by
+            shows.id
+            ;
+        """
+        return MySQLConnection(cls.DB).query_db(query,)
+
     @staticmethod
     def validate_new_show(data):
         is_valid = True

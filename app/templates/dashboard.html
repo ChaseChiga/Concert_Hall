@@ -39,7 +39,11 @@
             <tr>
                 <td>{{show.name}}</td>
                 <td>{{show.artist}}</td>
-                <td>likes</td>
+                <td>{% for like in likes %}
+                    {% if show.id == like.id  %}
+                    {{like.like_count}}
+                    {% endif %}
+                    {% endfor %}</td>
                 <td><a href="/shows/{{show.id}}">view show</a>
                 <a href="/shows/edit/{{show.id}}">edit</a>
                 <a href="/delete/{{show.id}}">delete</a>

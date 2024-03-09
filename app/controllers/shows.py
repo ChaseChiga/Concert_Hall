@@ -48,13 +48,19 @@ def add_show():
 def get_view_page(id):
 
     show = Show.get_by_id_with_creator(id) 
+    data = {
+        "show_id": id, 
+        "user_id": session['user_id']
+    }
+    liked = Show.get_like_from_user(data)
+    print(f'this is {liked}')
     if 'user_id' not in session:
         return redirect('/logout')
     if show.creator.id != session['user_id'] and show.public == 0:
         flash("this post is private or does not exist")
         return redirect('/feed')
     user_id = session['user_id']
-    return render_template("view.html", active_user = User.get_by_id(user_id), show = show)
+    return render_template("view.html", active_user = User.get_by_id(user_id), show = show, liked = liked)
 
 @app.route('/shows/edit/<int:id>')
 def get_edit_page(id):
@@ -152,7 +158,24 @@ def get_feed():
     if 'user_id' not in session:
         return redirect('/logout')
     id = session['user_id']
-    return render_template("feed.html", active_user = User.get_by_id(id), users_shows = Show.get_all_but_user(id))
+    likes = Show.count_likes()
+    print(likes)
+    return render_template("feed.html", active_user = User.get_by_id(id), users_shows = Show.get_all_but_user(id), likes = likes)
+
+@app.route('/shows/add/like', methods= ['POST'])
+def add_like():
+    if 'user_id' not in session:
+        return redirect('/logout')
+    Show.add_like(request.form)
+    return redirect(f'/shows/{request.form['show_id']}')
+
+@app.route('/shows/remove/like', methods= ['POST'])
+def remove_like():
+    print(request.form)
+    if 'user_id' not in session:
+        return redirect('/logout')
+    Show.delete_likes(request.form)
+    return redirect(f'/shows/{request.form['show_id']}')
 
 @app.route('/shows/image/<int:id>')
 def get_image(id):
