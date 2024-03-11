@@ -15,16 +15,24 @@ def allowed_file(filename):
 
 @app.route('/shows/new')
 def get_add_page():
+    show = {}
+    
     if 'user_id' not in session:
         return redirect('/logout')
+    if 'update_form' in session:
+        show = session['update_form']
+        if show['date'] != '':
+            show['date'] = datetime.strptime(show['date'], '%Y-%m-%d')
+        session.pop('update_form')
     id = session['user_id']
-    return render_template("add.html", active_user = User.get_by_id(id))
+    return render_template("add.html", active_user = User.get_by_id(id), show = show)
 
 @app.route('/shows/new', methods= ['POST'])
 def add_show():
     if 'user_id' not in session:
         return redirect('/logout')
     if not Show.validate_new_show(request.form):
+        session['update_form'] = request.form
         return redirect('/shows/new')
         # check if the post request has the file part
     filename = None
@@ -42,6 +50,8 @@ def add_show():
         **request.form,
         'file_name': filename
     })
+    if 'update_form' in session:
+        session.pop('update_form')
     return redirect("/dashboard")
 
 @app.route('/shows/<int:id>')
