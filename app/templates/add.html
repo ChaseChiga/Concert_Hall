@@ -24,40 +24,44 @@
                 {% endif %}
             {% endwith %}
         </div>
-        <form action="/shows/new" method="POST">
+        <form action="/shows/new" enctype="multipart/form-data" method="POST">
             <div>
                 <div>Show Name:</div>
-                <input type="text" name="name" id="name">
+                <input type="text" name="name" id="name" value="{{show.name}}">
             </div>
             <div>
                 <div>Artists:</div>
-                <input type="text" name="artists" id="artists">
+                <input type="text" name="artists" id="artists" value="{{show.artists}}">
             </div>
             <div>
                 <div>location:</div>
-                <input type="text" name="location" id="location">
+                <input type="text" name="location" id="location" value="{{show.location}}">
             </div>
             <div>
                 <div>Date:</div>
-                <input type="date" name="date" id="date">
+                <input type="date" name="date" id="date" {% if 'date' in show %}{% if show.date != '' %} value="{{show.date.strftime('%Y-%m-%d')}}" {% endif %}{% endif %}>
             </div>
             <div>
                 <div>Show rating:</div>
-                <input type="number" name="rating" id="rating" min="0" max="10">
+                <input type="number" name="rating" id="rating" min="0" max="10" value="{{show.rating}}">
             </div>
             <div>
                 <div>Thoughts:</div>
-                <textarea name="thoughts" id="thoughts"></textarea>
+                <textarea name="thoughts" id="thoughts">{{show.thoughts}}</textarea>
             </div>
             <div>
                 <div>
                     Make public?
                 </div>
                 <div>
-                    <input type="radio" name="public" id="yes" value="1">
+                    <input type="radio" name="public" id="yes" value="1" {% if show.public == '1' %} checked {% endif %} >
                     <label for="yes">Yes</label>
-                    <input type="radio" name="public" id="no" value="0">
+                    <input type="radio" name="public" id="no" value="0" {% if show.public == '0' %} checked {% endif %} >
                     <label for="no">No</label>
+                </div>
+                <div>
+                    <label for="file_name">upload a picture of the show</label>
+                    <input type="file" name="file_name" id="file_name">
                 </div>
             </div>
             <input type="hidden" name="user_id" value="{{active_user.id}}">

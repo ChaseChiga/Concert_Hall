@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>feed</title>
+</head>
+<body>
+    <div>
+        {{active_user.username}}
+        <a href="/dashboard">home</a>
+        <a href="/logout">logout</a>
+    </div>
+    <div>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div>
+                    {% for message in messages %}
+                        <p>{{message}}</p>
+                    {% endfor %}
+            </div>
+            {% endif %}
+        {% endwith %}
+    </div>
+    <table>
+        <thead>
+            <tr>
+                <td>Username</td>
+                <td>Show Name</td>
+                <td>Overall rating</td>
+                <td>likes</td>
+                <td>Actions</td>
+            </tr>
+        </thead>
+        <tbody>
+            {% for show in users_shows %}
+            <tr>
+                <td>{{show.creator.username}}</td>
+                <td>{{show.name}}</td>
+                <td>{{show.rating}}/10</td>
+                <td>{% for like in likes %}
+                    {% if show.id == like.id  %}
+                    {{like.like_count}}
+                    {% endif %}
+                    {% endfor %}
+                </td>
+                <td><a href="/shows/{{show.id}}">view show</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>

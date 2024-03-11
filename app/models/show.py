@@ -20,6 +20,7 @@ class Show:
         self.thoughts = data['thoughts']
         self.user_id = data["user_id"]
         self.public = data['public']
+        self.file_name = data['file_name']
         self.creator = None
 
     @classmethod
@@ -61,8 +62,8 @@ class Show:
     @classmethod
     def create(cls, data):
         query = """
-            INSERT INTO shows (name, artist, location, date, rating, thoughts, public, user_id)
-            VALUES (%(name)s, %(artists)s, %(location)s, %(date)s, %(rating)s, %(thoughts)s, %(public)s, %(user_id)s)"""
+            INSERT INTO shows (name, artist, location, date, rating, thoughts, public, user_id, file_name)
+            VALUES (%(name)s, %(artists)s, %(location)s, %(date)s, %(rating)s, %(thoughts)s, %(public)s, %(user_id)s, %(file_name)s)"""
         result = MySQLConnection(cls.DB).query_db(query, data)
         print(result)
         return result
@@ -78,12 +79,111 @@ class Show:
             date = %(date)s, 
             rating = %(rating)s, 
             thoughts = %(thoughts)s,
-            public = %(public)s
+            public = %(public)s,
+            file_name = %(file_name)s
             WHERE id = %(id)s
             ;"""
         result = MySQLConnection(cls.DB).query_db(query, data)
         return result
     
+    @classmethod
+    def delete(cls,id):
+        query = """ 
+            DELETE
+            FROM
+                shows
+            WHERE
+                id = %(id)s
+            ;
+        """
+        return MySQLConnection(cls.DB).query_db(query, {"id": id})
+    
+    @classmethod
+    def get_all_but_user(cls, user_id):
+        query = """SELECT *
+        FROM
+        shows
+        JOIN
+                users 
+            ON 
+                shows.user_id = users.id
+        WHERE 
+            shows.user_id != %(user_id)s
+        and 
+            shows.public = 1 
+        ;"""
+        results = MySQLConnection(cls.DB).query_db(query, {"user_id": user_id})
+        all_results = []
+        for row in results:
+            show = cls(row)
+            show.creator = User({
+                "id": row["users.id"],
+                "first_name": row["first_name"],
+                "last_name": row["last_name"],
+                "username": row["username"],
+                "email": row["email"],
+                "password": row["password"]
+        })
+            all_results.append(show)
+        return all_results
+    
+    @classmethod
+    def get_like_from_user(cls, data):
+        query = """SELECT *
+        FROM
+        likes
+        JOIN
+                shows 
+            ON 
+                likes.show_id = shows.id
+        WHERE 
+            likes.show_id = %(show_id)s
+        AND
+            likes.user_id = %(user_id)s
+        ;"""
+        results = MySQLConnection(cls.DB).query_db(query, data)
+
+        return results
+
+    @classmethod
+    def add_like(cls, data):
+        query = """
+            INSERT INTO likes (user_id, show_id)
+            VALUES (%(user_id)s, %(show_id)s)"""
+        result = MySQLConnection(cls.DB).query_db(query, data)
+        print(result)
+        return result
+    
+    @classmethod
+    def delete_likes(cls,data):
+        query = """ 
+            DELETE
+            FROM
+                likes
+            WHERE
+                user_id  = %(user_id)s
+            AND
+                show_id = %(show_id)s
+            ;
+        """
+        return MySQLConnection(cls.DB).query_db(query, data)
+
+    @classmethod
+    def count_likes(cls):
+        query = """ 
+            SELECT shows.id, count(likes.user_id) as like_count
+        FROM
+        shows
+        left JOIN
+                likes 
+        ON 
+                likes.show_id = shows.id
+        group by
+            shows.id
+            ;
+        """
+        return MySQLConnection(cls.DB).query_db(query,)
+
     @staticmethod
     def validate_new_show(data):
         is_valid = True

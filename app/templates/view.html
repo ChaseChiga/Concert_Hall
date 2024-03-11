@@ -27,7 +27,7 @@
         </div>
         <div>
             {% if show.user_id != active_user.id %}
-            <h3>Seen by:</h3>{{show.username}}
+            <h3>Posted by:</h3>{{show.creator.username}}
             {% endif %}
             <h3>Location:</h3>
             {{show.location}}
@@ -35,7 +35,31 @@
             {{show.date.strftime('%b-%d-%Y')}}
             <h3>show rating:</h3>
             {{show.rating}}/10
+            <div>
+                {% if show.user_id != active_user.id %}
+                    {% if liked == ( )%}
+            <form action="/shows/add/like" method="POST">
+                <input type="hidden" name="user_id" value="{{active_user.id}}">
+                <input type="hidden" name="show_id" value="{{show.id}}">
+                <button type="submit">Like post</button>
+            </form>
+                    {% elif liked != ( ) %}
+            <form action="/shows/remove/like" method="POST">
+                <input type="hidden" name="user_id" value="{{active_user.id}}">
+                <input type="hidden" name="show_id" value="{{show.id}}">
+                <button type="submit">Unlike post</button>
+            </form>
+                {% endif %}
+            <a href="/feed">view more posts</a>
+            {% endif %}
+
+            </div>
         </div>
+        {% if show.file_name !=  None %}
+        <div>
+            <img src="/shows/image/{{show.id}}"/>
+        </div>
+        {% endif %}
     </div>
 </body>
 </html>
