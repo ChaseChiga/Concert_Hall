@@ -43,6 +43,7 @@
                         </div>
                         <div class="col-12 col-lg-8">
                             <div class="container d-flex m-3 row">
+                                {% if show.file_name !=  None %}
                                     <div class="col-12 col-lg-3 ">
                                         {% if show.user_id != active_user.id %}
                                         <h3>Posted by:</h3>
@@ -56,7 +57,7 @@
                                         </h5>
                                         <h3>date:</h3>
                                         <h5>
-                                            {{show.date.strftime('%b-%d-%Y')}}
+                                            {{show.date.strftime('%B %d %Y')}}
                                         </h5>
                                         <h3>show rating:</h3>
                                         <h5>
@@ -84,11 +85,59 @@
                                                 </div>
                                             </div>
                                             {% endif %}
-                                            
                                         </div>
                                     </div>
-                                    {% if show.file_name !=  None %}
                                         <img src="/shows/image/{{show.id}}" class="col-12 col-lg-8"/>
+                                    {% else %}
+                                    <div class="col-12 col-lg-12 container">
+                                        <div class="row">
+                                            <div class="col-12 col-lg-6">
+                                                    {% if show.user_id != active_user.id %}
+                                                    <h3>Posted by:</h3>
+                                                    <h5>
+                                                        {{show.creator.username}}
+                                                    </h5>
+                                                    {% endif %}
+                                                    <h3>Location:</h3>
+                                                    <h5>
+                                                        {{show.location}}
+                                                    </h5>
+                                                    <h3>date:</h3>
+                                                    <h5>
+                                                        {{show.date.strftime('%B %d %Y')}}
+                                                    </h5>
+                                                    <h3>show rating:</h3>
+                                                    <h5>
+                                                        {{show.rating}}/10
+                                                    </h5>
+                                            </div>
+                                            <div class="col-12 col-lg-6 my-2">
+                                                <div>
+                                                    {% if show.user_id != active_user.id %}
+                                                    {% if liked == ( )%}
+                                                    <form action="/shows/add/like" method="POST">
+                                                        <input type="hidden" name="user_id" value="{{active_user.id}}">
+                                                        <input type="hidden" name="show_id" value="{{show.id}}">
+                                                        <button type="submit" class="btn btn-success">Like post</button>
+                                                    </form>
+                                                    {% elif liked != ( ) %}
+                                                    <form action="/shows/remove/like" method="POST">
+                                                        <input type="hidden" name="user_id" value="{{active_user.id}}">
+                                                        <input type="hidden" name="show_id" value="{{show.id}}">
+                                                        <button type="submit" class="btn btn-danger">Unlike post</button>
+                                                    </form>
+                                                    {% endif %}
+                                                    <div class="d-flex flex-column my-3">
+                                                        <h5>want to see more?</h5>
+                                                        <div>
+                                                            <a href="/feed" class="btn btn-primary my-3">view more posts</a>
+                                                        </div>
+                                                    </div>
+                                        </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
                                     {% endif %}
                                 </div>
                             </div>
