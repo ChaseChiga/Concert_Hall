@@ -4,80 +4,102 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>edit show</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
-<body>
+<body class="bg-secondary">
     <div>
-        {{active_user.username}}
-        <a href="/dashboard">home</a>
-        <a href="/logout">logout</a>
+        <div  class="container-fluid d-flex justify-content-between p-2 px-5 bg-dark bg-gradient align-items-center text-light">
+            <h1>
+                {{active_user.username}}
+            </h1>
+            <div class="d-flex justify-content-around">
+                <a href="/dashboard"  class="btn btn-primary text-center mx-5">home</a>
+                <a href="/logout" class="btn btn-warning text-center">logout</a>
+            </div>
+        </div>
+        <div class="d-flex flex-column justify-content-center">
+            <h1 class="text-center">Edit Show</h1>
+            <div class="col d-flex justify-content-center">
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    <div class="bg-dark px-2">
+                            {% for message in messages %}
+                                <p class="text-danger text-uppercase">{{message}}</p>
+                            {% endfor %}
+                    </div>
+                    {% endif %}
+                {% endwith %}
+            </div>
+            <form action="/shows/edit" enctype="multipart/form-data" method="POST">
+                <div class="container d-flex p-3">
+                    <div class="col-6">
+                        <div class="col-10">
+                            <h4>Show Name:</h4>
+                            <input type="text" name="name" id="name" value="{{show.name}}" class="form-control">
+                        </div>
+                        <div class="col-10">
+                            <h4>Artists:</h4>
+                            <textarea name="artists" id="artists" cols="60" rows="3" class="form-control">{{show.artists}}</textarea>
+                        </div>
+                        <div class="col-10">
+                            <h4>location:</h4>
+                            <input type="text" name="location" id="location" value="{{show.location}}" class="form-control">
+                        </div>
+                        <div class="col-10">
+                            <h4>Date:</h4>
+                            <input type="date" name="date" id="date" value="{{show.date.strftime('%Y-%m-%d')}}" class="form-control col-5">
+                        </div>
+                        <div class="col-10">
+                            <h4>Show rating:</h4>
+                            <input type="number" name="rating" id="rating" min="0" max="10" value="{{show.rating}}" class="form-control col-2">
+                        </div>
+                        <div class="col-10">
+                            <h4>Thoughts:</h4>
+                            <textarea name="thoughts" id="thoughts" cols="60" rows="3" class="form-control">{{show.thoughts}}</textarea>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <h4>
+                            Make public?
+                        </h4>
+                        <div>
+                            <div class="form-check">
+                                <input type="radio" name="public" id="yes" value="1" {% if show.public == 1 %} checked {% endif %} class="form-check-input" >
+                                <label for="yes" class="form-check-label">Yes</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" name="public" id="no" value="0" {% if show.public == 0 %} checked {% endif %} class="form-check-input" >
+                                <label for="no" class="form-check-label">No</label>
+                            </div>
+                        </div>
+                        <h4>
+                            <label for="file_name" class="form-lable">upload a picture of the show</label>
+                            <input type="file" name="file_name" id="file_name" {% if show.file_name != None %} value="{{show.file_name}}" {% endif %} class="form-control bg-secondary border border-secondary text-dark">
+                        </h4>
+                        {% if show.file_name !=  None %}
+                    <div class="container" class="bg-primary">
+                        <h5>current image:</h5>
+                        <div class="col-6">
+                            <img src="/shows/image/{{show.id}}" class="img-fluid"/>
+                        </div>
+                    </div>
+                    <h5 class="form-check">
+                        <input type="checkbox" name="remove_image" id="remove_image" class="form-check-input">
+                        <label for="remove_image" class="form-check-label">remove image?</label>
+                    </h5>
+                    {% endif %}
+                    </div>
+                </div>
+                <input type="hidden" name="user_id" value="{{show.user_id}}">
+                <input type="hidden" name="id" value="{{show.id}}">
+                <div class="col d-flex justify-content-center">
+                    <button type="submit" class="btn btn-primary">submit</button>
+                </div>
+            </form>
+        </div>
     </div>
-    <div>
-        <h1>Edit Show</h1>
-        <div>
-            {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <div>
-                        {% for message in messages %}
-                            <p>{{message}}</p>
-                        {% endfor %}
-                </div>
-                {% endif %}
-            {% endwith %}
-        </div>
-        <form action="/shows/edit" enctype="multipart/form-data" method="POST">
-            <div>
-                <div>Show Name:</div>
-                <input type="text" name="name" id="name" value="{{show.name}}">
-            </div>
-            <div>
-                <div>Artists:</div>
-                <input type="text" name="artists" id="artists" value="{{show.artists}}">
-            </div>
-            <div>
-                <div>location:</div>
-                <input type="text" name="location" id="location" value="{{show.location}}">
-            </div>
-            <div>
-                <div>Date:</div>
-                <input type="date" name="date" id="date" value="{{show.date.strftime('%Y-%m-%d')}}">
-            </div>
-            <div>
-                <div>Show rating:</div>
-                <input type="number" name="rating" id="rating" min="0" max="10" value="{{show.rating}}">
-            </div>
-            <div>
-                <div>Thoughts:</div>
-                <textarea name="thoughts" id="thoughts">{{show.thoughts}}</textarea>
-            </div>
-            <div>
-                <div>
-                    Make public?
-                </div>
-                <div>
-                    <input type="radio" name="public" id="yes" value="1" {% if show.public == 1 %} checked {% endif %} >
-                    <label for="yes">Yes</label>
-                    <input type="radio" name="public" id="no" value="0" {% if show.public == 0 %} checked {% endif %} >
-                    <label for="no">No</label>
-                </div>
-            </div>
-            <div>
-                <label for="file_name">upload a picture of the show</label>
-                <input type="file" name="file_name" id="file_name" {% if show.file_name != None %} value="{{show.file_name}}" {% endif %}>
-            </div>
-            {% if show.file_name !=  None %}
-        <div>
-            <div>current image:</div>
-            <img src="/shows/image/{{show.id}}"/>
-        </div>
-        <div>
-            <label for="remove_image">remove image?</label>
-            <input type="checkbox" name="remove_image" id="remove_image">
-        </div>
-        {% endif %}
-            <input type="hidden" name="user_id" value="{{show.user_id}}">
-            <input type="hidden" name="id" value="{{show.id}}">
-            <button type="submit">submit</button>
-        </form>
-    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>    
 </body>
 </html>

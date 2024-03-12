@@ -77,6 +77,7 @@ def get_edit_page(id):
 
     show =Show.get_by_id_with_creator(id)
     if 'update_form' in session:
+        print(session['update_form'])
         show.name = session['update_form']['name']
         show.artists = session['update_form']['artists']
         show.location = session['update_form']['location']
@@ -84,7 +85,6 @@ def get_edit_page(id):
         show.rating = session['update_form']['rating']
         show.thoughts = session['update_form']['thoughts']
         show.public = int(session['update_form']['public'])
-        show.file_name = session['update_form']['file_name']
         session.pop('update_form')
 
     if 'user_id' not in session:
@@ -100,7 +100,7 @@ def edit_showing():
     show = Show.get_by_id_with_creator(int(request.form['id']))
     if "file_name" not in session:
         session['file_name'] = show.file_name
-        print(session['file_name'])
+        print(f"!!!!!! {show.file_name}")
 
     if show:
         if show.creator.id != session['user_id']:
