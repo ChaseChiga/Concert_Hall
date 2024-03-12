@@ -58,18 +58,17 @@ def add_show():
 def get_view_page(id):
 
     show = Show.get_by_id_with_creator(id) 
-    data = {
-        "show_id": id, 
-        "user_id": session['user_id']
-    }
-    liked = Show.get_like_from_user(data)
-    print(f'this is {liked}')
     if 'user_id' not in session:
         return redirect('/logout')
     if show.creator.id != session['user_id'] and show.public == 0:
         flash("this post is private or does not exist")
         return redirect('/feed')
+    data = {
+        "show_id": id, 
+        "user_id": session['user_id']
+    }
     user_id = session['user_id']
+    liked = Show.get_like_from_user(data)
     return render_template("view.html", active_user = User.get_by_id(user_id), show = show, liked = liked)
 
 @app.route('/shows/edit/<int:id>')

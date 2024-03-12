@@ -8,12 +8,18 @@
 </head>
 <body class="bg-secondary">
     <div>
-        <span class="container-fluid d-flex justify-content-between p-2 px-5 bg-dark bg-gradient align-items-center text-light">
-            <h1>
+        <div class="container-fluid p-2 px-5 bg-dark bg-gradient d-flex justify-content-around align-items-center text-light">
+            <h2 class="col-10 col-lg-6">
                 {{active_user.username}}
-            </h1>
-            <a href="/logout" class="btn btn-warning text-center">logout</a>
-        </span>
+            </h2>
+            <div class="col-6 col-lg-2 ms-3 container">
+                <div class="row d-flex justify-content-between">
+                    <div class="col-12 col-md-12 col-lg-6">
+                        <a href="/logout" class="btn btn-warning text-center col-12 col-lg-6 p-1">logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="containter d-flex flex-column m-5">
             {% with messages = get_flashed_messages() %}
             {% if messages %}

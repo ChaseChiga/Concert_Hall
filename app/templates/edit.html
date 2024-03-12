@@ -7,16 +7,22 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body class="bg-secondary">
-    <div>
-        <div  class="container-fluid d-flex justify-content-between p-2 px-5 bg-dark bg-gradient align-items-center text-light">
-            <h1>
-                {{active_user.username}}
-            </h1>
-            <div class="d-flex justify-content-around">
-                <a href="/dashboard"  class="btn btn-primary text-center mx-5">home</a>
-                <a href="/logout" class="btn btn-warning text-center">logout</a>
+    <div class="container-fluid p-2 px-5 bg-dark bg-gradient d-flex justify-content-around align-items-center text-light">
+        <h2 class="col-10 col-lg-6">
+            {{active_user.username}}
+        </h2>
+        <div class="col-6 col-lg-2 ms-3 container">
+            <div class="row d-flex justify-content-between">
+                <div class="col-12 col-lg-6 ">
+
+                    <a href="/dashboard" class="btn btn-primary text-center col-12  col-lg-6 p-1">home</a>
+                </div>
+                <div class="col-12 col-md-12 col-lg-6">
+                    <a href="/logout" class="btn btn-warning text-center col-12 col-lg-6 p-1">logout</a>
+                </div>
             </div>
         </div>
+    </div>
         <div class="d-flex flex-column justify-content-center">
             <h1 class="text-center">Edit Show</h1>
             <div class="col d-flex justify-content-center">
