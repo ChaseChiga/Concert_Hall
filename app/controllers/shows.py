@@ -36,13 +36,10 @@ def add_show():
         return redirect('/shows/new')
         # check if the post request has the file part
     filename = None
-    print(request.files)
     if 'file_name' not in request.files:
         flash('No file part')
         return redirect(request.url)
     file = request.files['file_name']
-        # If the user does not select a file, the browser submits an
-        # empty file without a filename.
     if file and allowed_file(file.filename):
         filename = uuid.uuid4().hex
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
@@ -99,12 +96,10 @@ def edit_showing():
     show = Show.get_by_id_with_creator(int(request.form['id']))
     if "file_name" not in session:
         session['file_name'] = show.file_name
-        print(f"!!!!!! {show.file_name}")
 
-    if show:
-        if show.creator.id != session['user_id']:
-            flash("Can not edit someone elses show")
-            return redirect('/logout')
+    if show.creator.id != session['user_id']:
+        flash("Can not edit someone elses show")
+        return redirect('/logout')
         
     if 'user_id' not in session:
         return redirect('/logout')
@@ -170,7 +165,6 @@ def get_feed():
         return redirect('/logout')
     id = session['user_id']
     likes = Show.count_likes()
-    print(likes)
     return render_template("feed.html", active_user = User.get_by_id(id), users_shows = Show.get_all_but_user(id), likes = likes)
 
 @app.route('/shows/add/like', methods= ['POST'])
@@ -191,5 +185,4 @@ def remove_like():
 @app.route('/shows/image/<int:id>')
 def get_image(id):
     show = Show.get_by_id_with_creator(id)
-    print(f'this is the result: {show.file_name}')
     return send_file(os.path.abspath(app.config['UPLOAD_FOLDER'] + '/' + show.file_name), mimetype='image/png')
