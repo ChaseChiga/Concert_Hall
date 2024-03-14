@@ -79,7 +79,7 @@
                             </div>
                         </div>
                         <h4>
-                            <label for="file_name" class="form-lable">upload a picture of the show</label>
+                            <label for="file_name" class="form-lable">upload a picture of the show (optional)</label>
                             <input type="file" name="file_name" id="file_name" {% if show.file_name != None %} value="{{show.file_name}}" {% endif %} class="form-control bg-secondary border border-secondary text-dark">
                         </h4>
                         {% if show.file_name !=  None %}
