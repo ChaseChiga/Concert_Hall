@@ -9,17 +9,17 @@
 <body class="bg-secondary">
     <div>
         <div class="container-fluid p-2 px-5 bg-dark bg-gradient d-flex justify-content-between align-items-center text-light">
-            <h2 class="col-10 col-lg-10">
+            <h2 class="col-8 col-lg-10">
                 {{active_user.username}}
             </h2>
-            <div class="col-6 col-lg-2 ms-3 container">
+            <div class="col-4 col-lg-2 ms-3 container">
                 <div class="row d-flex justify-content-end">
                     <div class="col-12 col-lg-6 ">
 
-                        <a href="/dashboard" class="btn btn-primary text-center col-12  col-lg-6 p-1">home</a>
+                        <a href="/dashboard" class="btn btn-primary text-center col-12  col-lg-6 p-1 mb-1">home</a>
                     </div>
                     <div class="col-12 col-md-12 col-lg-6">
-                        <a href="/logout" class="btn btn-warning text-center col-12 col-lg-6 p-1">logout</a>
+                        <a href="/logout" class="btn btn-warning text-center col-12 col-lg-6 p-1 mb-1">logout</a>
                     </div>
                 </div>
             </div>
@@ -39,50 +39,52 @@
             </div>
             <form action="/shows/new" enctype="multipart/form-data" method="POST">
                 <div class="container d-flex p-3">
-                    <div class="col-6">
-                        <div class="col-10">
-                            <h4>Show Name:</h4>
-                            <input type="text" name="name" id="name" value="{{show.name}}" class="form-control">
-                        </div>
-                        <div class="col-10">
-                            <h4>Artists:</h4>
-                            <textarea name="artists" id="artists" cols="60" rows="3" class="form-control">{{show.artists}}</textarea>
-                        </div>
-                        <div class="col-10">
-                            <h4>location:</h4>
-                            <input type="text" name="location" id="location" value="{{show.location}}" class="form-control">
-                        </div>
-                        <div class="col-10">
-                            <h4>Date:</h4>
-                            <input type="date" name="date" id="date" {% if 'date' in show %}{% if show.date != '' %} value="{{show.date.strftime('%Y-%m-%d')}}" {% endif %}{% endif %} class="form-control col-5">
-                        </div>
-                        <div class="col-10">
-                            <h4>Show rating:</h4>
-                            <input type="number" name="rating" id="rating" min="0" max="10" value="{{show.rating}}" class="form-control col-2">
-                        </div>
-                        <div class="col-10">
-                            <h4>Thoughts:</h4>
-                            <textarea name="thoughts" id="thoughts" class="form-control" cols="60" rows="3">{{show.thoughts}}</textarea>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <h4>
-                            Make public?
-                        </h4>
-                        <div>
-                            <div class="form-check">
-                                <input type="radio" name="public" id="yes" value="1" {% if show.public == '1' %} checked {% endif %} class="form-check-input" >
-                                <label for="yes" class="" class=" form-check-label">Yes</label>
+                    <div class="row">
+                        <div class="col-12 col-lg-6">
+                            <div class="col-10">
+                                <h4>Show Name:</h4>
+                                <input type="text" name="name" id="name" value="{{show.name}}" class="form-control">
                             </div>
-                            <div class="form-check">
-                                <input type="radio" name="public" id="no" value="0" {% if show.public == '0' %} checked {% endif %} class="form-check-input" >
-                                <label for="no" class="form-check-label">No</label>
+                            <div class="col-10">
+                                <h4>Artists:</h4>
+                                <textarea name="artists" id="artists" cols="60" rows="3" class="form-control">{{show.artists}}</textarea>
+                            </div>
+                            <div class="col-10">
+                                <h4>location:</h4>
+                                <input type="text" name="location" id="location" value="{{show.location}}" class="form-control">
+                            </div>
+                            <div class="col-10">
+                                <h4>Date:</h4>
+                                <input type="date" name="date" id="date" {% if 'date' in show %}{% if show.date != '' %} value="{{show.date.strftime('%Y-%m-%d')}}" {% endif %}{% endif %} class="form-control col-5">
+                            </div>
+                            <div class="col-10">
+                                <h4>Show rating:</h4>
+                                <input type="number" name="rating" id="rating" min="0" max="10" value="{{show.rating}}" class="form-control col-2">
+                            </div>
+                            <div class="col-10">
+                                <h4>Thoughts:</h4>
+                                <textarea name="thoughts" id="thoughts" class="form-control" cols="60" rows="3">{{show.thoughts}}</textarea>
                             </div>
                         </div>
-                            <h4>
-                                <label for="file_name" class="form-lable">Upload a picture of the show (optional)</label>
-                                <input type="file" name="file_name" id="file_name" class="form-control bg-secondary border border-secondary text-dark">
+                        <div class="col-12 col-lg-6">
+                            <h4 class="col-12">
+                                Make public?
                             </h4>
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input type="radio" name="public" id="yes" value="1" {% if show.public == '1' %} checked {% endif %} class="form-check-input" >
+                                    <label for="yes" class="" class=" form-check-label">Yes</label>
+                                </div>
+                                <div class="form-check">
+                                    <input type="radio" name="public" id="no" value="0" {% if show.public == '0' %} checked {% endif %} class="form-check-input" >
+                                    <label for="no" class="form-check-label">No</label>
+                                </div>
+                            </div>
+                                <h4 class="col-12">
+                                    <label for="file_name" class="form-lable">Upload a picture of the show (optional)</label>
+                                    <input type="file" name="file_name" id="file_name" class="form-control bg-secondary border border-secondary text-dark">
+                                </h4>
+                        </div>
                     </div>
                 </div>
                 <input type="hidden" name="user_id" value="{{active_user.id}}">
