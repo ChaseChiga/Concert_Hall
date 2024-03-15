@@ -31,7 +31,7 @@
                         {{show.name}}
                     </h1>
                 </div>
-                <div class="container d-flex justify-content-around">
+                <div class="container d-flex justify-content-around my-3">
                     <div class="row">
                         <div class="col-12 col-lg-4">
                             <h3 class="text-center">Artists</h3>
@@ -43,39 +43,41 @@
                         </div>
                         <div class="col-12 col-lg-8">
                             <div class="container">
-                                <div class="row">                                    
+                                <div class="row justify-content-center">                                    
                                     {% if show.file_name !=  None %}
                                     <div class="col-12 col-lg-4">
-                                        <div class=" col-lg-12">
-                                            {% if show.user_id != active_user.id %}
-                                            <div class="col-6 col-lg-12">
-                                                <h3>Posted by:</h3>
-                                                <h5>
-                                                    {{show.creator.username}}
-                                                </h5>
+                                        <div class="container  col-lg-12">
+                                            <div class="row">
+                                                {% if show.user_id != active_user.id %}
+                                                <div class="col-6 col-lg-12">
+                                                    <h3>Posted by:</h3>
+                                                    <h5>
+                                                        {{show.creator.username}}
+                                                    </h5>
+                                                </div>
+                                                {% endif %}
+                                                <div class="col-6 col-lg-12">
+                                                    <h3>Location:</h3>
+                                                    <h5>
+                                                        {{show.location}}
+                                                    </h5>
+                                                </div>
+                                                <div class="col-6 col-lg-12">
+                                                    <h3>date:</h3>
+                                                    <h5>
+                                                        {{show.date.strftime('%B %d %Y')}}
+                                                    </h5>
+                                                </div>
+                                                <div class="col-6 col-lg-12">
+                                                    <h3>show rating:</h3>
+                                                    <h5>
+                                                        {{show.rating}}/10
+                                                    </h5>
+                                                </div>
                                             </div>
-                                            {% endif %}
-                                            <div class="col-6 col-lg-12">
-                                                <h3>Location:</h3>
-                                                <h5>
-                                                    {{show.location}}
-                                                </h5>
-                                            </div>
-                                            <div class="col-6 col-lg-12">
-                                                <h3>date:</h3>
-                                                <h5>
-                                                    {{show.date.strftime('%B %d %Y')}}
-                                                </h5>
-                                            </div>
-                                            <div class="col-6 col-lg-12">
-                                                <h3>show rating:</h3>
-                                                <h5>
-                                                    {{show.rating}}/10
-                                                </h5>
-                                            </div>
-                                            <div class="col-12 col-lg-12 container">
+                                            <div class="col-12 col-lg-12 container my-2">
                                                 <div class="row">
-                                                    <div class="col-5 col-lg-12 d-flex justify-content-center align-items-center">
+                                                    <div class="col-5 col-lg-12 d-flex justify-content-center align-items-cente my-2">
                                                         {% if show.user_id != active_user.id %}
                                                         {% if liked == ( )%}
                                                         <form action="/shows/add/like" method="POST">
@@ -108,7 +110,7 @@
                                         <div class="row">  
                                     <div class="col-12 col-lg-12 container">
                                         <div class="row">
-                                            <div class="col-12 col-lg-6 container">
+                                            <div class="col-12 col-lg-12 container">
                                                 <div class="row">
                                                     {% if show.user_id != active_user.id %}
                                                     <div class="col-6 col-lg-6">
@@ -157,8 +159,8 @@
                                                         {% endif %}
                                                     </div>
                                                         <div class="col-7 col-lg-6">
-                                                            <h4 class="col-6">want to see more?</h4>
-                                                            <a href="/feed" class="btn btn-primary my-3 col-12 col-lg-6">view more posts</a>
+                                                            <h4 class="col-12">want to see more?</h4>
+                                                            <a href="/feed" class="btn btn-primary  col-12 col-lg-6">view more posts</a>
                                                             {% endif %}
                                                         </div>
                                                     </div>
