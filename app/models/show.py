@@ -29,6 +29,8 @@ class Show:
         FROM
         shows
         WHERE shows.user_id = %(user_id)s
+        ORDER BY
+        shows.created_at desc
         ;"""
         results = MySQLConnection(cls.DB).query_db(query, {"user_id": user_id})
         return results
@@ -111,6 +113,8 @@ class Show:
             shows.user_id != %(user_id)s
         and 
             shows.public = 1 
+        ORDER BY
+            shows.created_at desc
         ;"""
         results = MySQLConnection(cls.DB).query_db(query, {"user_id": user_id})
         all_results = []

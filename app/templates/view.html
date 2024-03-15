@@ -4,62 +4,188 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View show</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
-<body>
-    <div>
-        {{active_user.username}}
-        <a href="/dashboard">home</a>
-        <a href="/logout">logout</a>
-    </div>
-    <div>
-        <h1>
-            {{show.name}}
-        </h1>
-    </div>
-    <div>
-        <h3>Artists</h3>
-        {{show.artist}}
-    </div>
-    <div>
-        <div>
-            <h3>Thoughts about the show</h3>
-            {{show.thoughts}}
-        </div>
-        <div>
-            {% if show.user_id != active_user.id %}
-            <h3>Posted by:</h3>{{show.creator.username}}
-            {% endif %}
-            <h3>Location:</h3>
-            {{show.location}}
-            <h3>date:</h3>
-            {{show.date.strftime('%b-%d-%Y')}}
-            <h3>show rating:</h3>
-            {{show.rating}}/10
-            <div>
-                {% if show.user_id != active_user.id %}
-                    {% if liked == ( )%}
-            <form action="/shows/add/like" method="POST">
-                <input type="hidden" name="user_id" value="{{active_user.id}}">
-                <input type="hidden" name="show_id" value="{{show.id}}">
-                <button type="submit">Like post</button>
-            </form>
-                    {% elif liked != ( ) %}
-            <form action="/shows/remove/like" method="POST">
-                <input type="hidden" name="user_id" value="{{active_user.id}}">
-                <input type="hidden" name="show_id" value="{{show.id}}">
-                <button type="submit">Unlike post</button>
-            </form>
-                {% endif %}
-            <a href="/feed">view more posts</a>
-            {% endif %}
+<body class="bg-secondary">
+    <div class="container-fluid p-2 px-5 bg-dark bg-gradient d-flex justify-content-between align-items-center text-light">
+        <h2 class="col-8 col-lg-10">
+            {{active_user.username}}
+        </h2>
+        <div class="col-4 col-lg-2 ms-3 container">
+            <div class="row d-flex justify-content-end">
+                <div class="col-12 col-lg-6 ">
 
+                    <a href="/dashboard" class="btn btn-primary text-center col-12  col-lg-6 p-1 mb-1">home</a>
+                </div>
+                <div class="col-12 col-md-12 col-lg-6">
+                    <a href="/logout" class="btn btn-warning text-center col-12 col-lg-6 p-1 mb-1">logout</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        {% if show.file_name !=  None %}
-        <div>
-            <img src="/shows/image/{{show.id}}"/>
+        <div class="container-lg container-sm m-2">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h1>
+                        {{show.name}}
+                    </h1>
+                </div>
+                <div class="container d-flex justify-content-around">
+                    <div class="row">
+                        <div class="col-12 col-lg-4">
+                            <h3 class="text-center">Artists</h3>
+                            <div class="border border-dark p-2 bg-white col-12">
+                                <div class="text-center">
+                                    {{show.artists}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-8">
+                            <div class="container">
+                                <div class="row">                                    
+                                    {% if show.file_name !=  None %}
+                                    <div class="col-12 col-lg-4">
+                                        <div class=" col-lg-12">
+                                            {% if show.user_id != active_user.id %}
+                                            <div class="col-6 col-lg-12">
+                                                <h3>Posted by:</h3>
+                                                <h5>
+                                                    {{show.creator.username}}
+                                                </h5>
+                                            </div>
+                                            {% endif %}
+                                            <div class="col-6 col-lg-12">
+                                                <h3>Location:</h3>
+                                                <h5>
+                                                    {{show.location}}
+                                                </h5>
+                                            </div>
+                                            <div class="col-6 col-lg-12">
+                                                <h3>date:</h3>
+                                                <h5>
+                                                    {{show.date.strftime('%B %d %Y')}}
+                                                </h5>
+                                            </div>
+                                            <div class="col-6 col-lg-12">
+                                                <h3>show rating:</h3>
+                                                <h5>
+                                                    {{show.rating}}/10
+                                                </h5>
+                                            </div>
+                                            <div class="col-12 col-lg-12 container">
+                                                <div class="row">
+                                                    <div class="col-5 col-lg-12 d-flex justify-content-center align-items-center">
+                                                        {% if show.user_id != active_user.id %}
+                                                        {% if liked == ( )%}
+                                                        <form action="/shows/add/like" method="POST">
+                                                            <input type="hidden" name="user_id" value="{{active_user.id}}">
+                                                            <input type="hidden" name="show_id" value="{{show.id}}">
+                                                            <button type="submit" class="btn btn-success">Like post</button>
+                                                        </form>
+                                                        {% elif liked != ( ) %}
+                                                        <form action="/shows/remove/like" method="POST">
+                                                            <input type="hidden" name="user_id" value="{{active_user.id}}">
+                                                            <input type="hidden" name="show_id" value="{{show.id}}">
+                                                            <button type="submit" class="btn btn-danger">Unlike post</button>
+                                                        </form>
+                                                        {% endif %}
+                                                    </div>
+                                                        <div class="col-7 col-lg-12">
+                                                            <h4 class="col-12">want to see more?</h4>
+                                                            <a href="/feed" class="btn btn-primary my-3 col-12">view more posts</a>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                    </div> 
+                                </div>
+                                <img src="/shows/image/{{show.id}}" class="col-12 col-lg-8"/>
+                                </div>
+                        </div>
+                                    {% else %}
+                                    <div class="container">
+                                        <div class="row">  
+                                    <div class="col-12 col-lg-12 container">
+                                        <div class="row">
+                                            <div class="col-12 col-lg-6 container">
+                                                <div class="row">
+                                                    {% if show.user_id != active_user.id %}
+                                                    <div class="col-6 col-lg-6">
+                                                        <h3>Posted by:</h3>
+                                                        <h5>
+                                                            {{show.creator.username}}
+                                                        </h5>
+                                                    </div>
+                                                    {% endif %}
+                                                    <div class="col-6 col-lg-6">
+                                                        <h3>Location:</h3>
+                                                        <h5>
+                                                            {{show.location}}
+                                                        </h5>
+                                                    </div>
+                                                    <div class="col-6 col-lg-6">
+                                                        <h3>date:</h3>
+                                                        <h5>
+                                                            {{show.date.strftime('%B %d %Y')}}
+                                                        </h5>
+                                                    </div>
+                                                    <div class="col-6 col-lg-6">
+                                                        <h3>show rating:</h3>
+                                                        <h5>
+                                                            {{show.rating}}/10
+                                                        </h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-lg-12 container my-2">
+                                                <div class="row">
+                                                    <div class="col-5 col-lg-6 d-flex justify-content-center align-items-center">
+                                                        {% if show.user_id != active_user.id %}
+                                                        {% if liked == ( )%}
+                                                        <form action="/shows/add/like" method="POST">
+                                                            <input type="hidden" name="user_id" value="{{active_user.id}}">
+                                                            <input type="hidden" name="show_id" value="{{show.id}}">
+                                                            <button type="submit" class="btn btn-success">Like post</button>
+                                                        </form>
+                                                        {% elif liked != ( ) %}
+                                                        <form action="/shows/remove/like" method="POST">
+                                                            <input type="hidden" name="user_id" value="{{active_user.id}}">
+                                                            <input type="hidden" name="show_id" value="{{show.id}}">
+                                                            <button type="submit" class="btn btn-danger">Unlike post</button>
+                                                        </form>
+                                                        {% endif %}
+                                                    </div>
+                                                        <div class="col-7 col-lg-6">
+                                                            <h4 class="col-6">want to see more?</h4>
+                                                            <a href="/feed" class="btn btn-primary my-3 col-12 col-lg-6">view more posts</a>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                    </div>
+                                    </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <h3 class="text-center">Thoughts about the show</h3>
+                        <div class="d-flex justify-content-center">
+
+                            <div class="border border-dark bg-white col-lg-6"">
+                                {{show.thoughts}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        {% endif %}
     </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>    
 </body>
 </html>
